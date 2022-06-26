@@ -24,10 +24,11 @@
 
 - Tools > Options > Text Editor > C# > Advanced > Using Directive > Place 'System' directives first when sorting using = Checked.
 - Tools > Options > Projects and Solutions > General > Track Active Item in Solution Explorer = Checked.
+- Tools > Options > Projects and Solutions > Location > Project location = "c:\Code"
 
 ### Visual Studio Extensions
 
-- [CodeMaid](https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaidVS2022)
+- [CodeMaid VS2022](https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaidVS2022)
 - [Visual Studio Spell Checker (VS2022 and Later)](https://marketplace.visualstudio.com/items?itemName=EWoodruff.VisualStudioSpellCheckerVS2022andLater)
 
 ### CSS Framework
