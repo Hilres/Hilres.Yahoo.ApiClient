@@ -1,5 +1,6 @@
 ﻿namespace ExampleConsoleApp;
 
+using System.Reflection;
 using Hilres.Yahoo.ApiClient;
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,7 @@ internal class Program
         using var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder
-                .AddFilter("Hilres", LogLevel.Trace)
+                .AddFilter("Hilres", LogLevel.Warning)
                 .AddFilter("Microsoft", LogLevel.Warning)
                 .AddFilter("System", LogLevel.Warning)
                 .AddConsole();
@@ -32,22 +33,40 @@ internal class Program
             }
         }
 
-        var parser = await client.GetPricesParserAsync("msft", new(2022, 1, 3), new(2022, 1, 8));
-        logger.LogInformation("IsSuccessful = {IsSuccessful}  StatusCode = {StatusCode}", parser.IsSuccessful, parser.StatusCode);
-
-        if (parser.IsSuccessful)
-        {
-            var prices = await parser.Prices
-                    .Select(p => new MyPrice(p.Date, p.AdjClose, p.Volume))
-                    .ToDictionaryAsync(p => p.Date)
-                    .ConfigureAwait(false);
-
-            Console.WriteLine(prices[new(2022, 1, 4)]);
-            Console.WriteLine(prices[new(2022, 1, 6)]);
-        }
+        await DisplayAllSP500(client);
 
         logger.LogInformation("End");
         Console.WriteLine("Done");
+    }
+
+    private static async Task DisplayAllSP500(YahooClient client)
+    {
+        using var stream = Assembly
+                                .GetExecutingAssembly()
+                                .GetManifestResourceStream("ExampleConsoleApp.SP500SymbolsAsOf20221025.txt")
+                                ?? throw new NullReferenceException();
+
+        using var reader = new StreamReader(stream);
+
+        string? symbol;
+        while ((symbol = reader.ReadLine()) != null)
+        {
+            await DisplayStockPrice(client, symbol);
+        }
+    }
+
+    private static async Task DisplayStockPrice(YahooClient client, string symbol)
+    {
+        var parser = await client.GetPricesParserAsync(symbol, new(2022, 1, 3), new(2022, 1, 8));
+        Console.WriteLine($"{symbol,-7} IsSuccessful = {parser.IsSuccessful}  StatusCode = {parser.StatusCode}");
+
+        if (parser.IsSuccessful)
+        {
+            await foreach (var item in parser.Prices.ConfigureAwait(false))
+            {
+                Console.WriteLine($"        {item.Date} {item.AdjClose} {item.Volume}");
+            }
+        }
     }
 
     public record MyPrice(DateOnly Date, double? AdjClose, long? Volume);

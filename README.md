@@ -5,6 +5,8 @@
 This will access the unofficial Yahoo web API.
 There API may not be available in the future.
 
+[ReleaseNotes](ReleaseNotes.md)
+
 ## Using Hilres.Yahoo.ApiClient
 
 There are two function that will retrieve the historical stock prices.

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		DevEnvironment.md = DevEnvironment.md
 		LICENSE = LICENSE
 		README.md = README.md
+		ReleaseNotes.md = ReleaseNotes.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hilres.Yahoo.ApiClient", "Hilres.Yahoo.ApiClient\Hilres.Yahoo.ApiClient.csproj", "{D20AB096-10AE-4B15-9DE2-0AC6E8540F74}"

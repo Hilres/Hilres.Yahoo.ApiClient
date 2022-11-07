@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 /// <summary>
 /// Historical data retrieval for Yahoo client class.
 /// </summary>
-public partial class YahooClient
+public sealed partial class YahooClient
 {
     /// <summary>
     /// Get historical stock prices.
@@ -131,8 +131,7 @@ public partial class YahooClient
         string period2 = lastDate.HasValue ? lastDate.Value.ToUnixTimestamp() : EasternTimeNow.AddDays(1).ToUnixTimestamp();
         string intervalString = ToIntervalString(interval);
 
-        await this.CheckCrumb(cancellationToken).ConfigureAwait(false);
-        var url = $"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={period1}&period2={period2}&interval={intervalString}&events=history&includeAdjustedClose=true&crumb={this.crumb}";
+        var url = $"https://query1.finance.yahoo.com/v7/finance/download/{symbol}?period1={period1}&period2={period2}&interval={intervalString}&events=history&includeAdjustedClose=true";
         this.logger?.LogTrace("{URL}", url);
 
         var response = await this.apiHttpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);

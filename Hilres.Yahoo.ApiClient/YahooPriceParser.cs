@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 /// <summary>
 /// Yahoo price parser class.
 /// </summary>
-public class YahooPriceParser
+public sealed class YahooPriceParser
 {
     private readonly ILogger? logger;
     private string[] column;
